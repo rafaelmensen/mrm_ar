@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   LayoutGrid,
   LineChart,
@@ -28,71 +28,6 @@ select optgroup{ background:#0b1420; color:#a8b3c3; }
 select option::-webkit-scrollbar{ width:10px }
 select option::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.12); border-radius:8px }
 `;
-
-const BORDER_GRADIENT_CSS = `
-@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
-@keyframes spinBorder { to { --a: 360deg; } }
-
-/* overlay da borda animada */
-.border-anim{
-  position:absolute; inset:0; pointer-events:none; z-index:5;
-}
-
-/* entra 1px pra dentro e ajusta o raio (26-1=25) pra não cortar nas quinas */
-.border-anim::before{
-  content:"";
-  position:absolute; inset:1px;        /* <<< evita clip nas bordas */
-  border-radius:25px;                   /* <<< 26-1 */
-  border: 2px solid transparent;        /* espessura da borda animada */
-  border-image: conic-gradient(
-    from var(--a),
-    #22c55e, #14b8a6, #0ea5e9, #8b5cf6, #22c55e
-  ) 1;
-  animation: spinBorder 8s linear infinite;
-}
-
-/* brilho (opcional). Remova se não quiser glow */
-.border-anim::after{
-  content:"";
-  position:absolute; inset:-6px;
-  border-radius:31px;                   /* 25 + 6 */
-  filter: blur(10px);
-  opacity:.18;
-  background:
-    radial-gradient(closest-side, rgba(20,184,166,.25), transparent 70%),
-    radial-gradient(closest-side, rgba(14,165,233,.20), transparent 70%);
-}
-`;
-
-const NAV_GRADIENT_CSS = `
-@keyframes navSlide {
-  0%   { background-position: 0% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* recipiente do chip */
-.nav-chip{ position:relative; overflow:hidden; border-radius:1rem; }
-
-/* superfície animada do chip ATIVO – sem traço */
-.nav-active-surface{
-  position:absolute; inset:0; z-index:0; border-radius:inherit;
-  background: linear-gradient(90deg,
-    #22c55e 0%,
-    #14b8a6 25%,
-    #0ea5e9 50%,
-    #8b5cf6 75%,
-    #22c55e 100%);
-  background-size: 200% 100%;
-  animation: navSlide 6s linear infinite;
-  filter: saturate(1.05);
-}
-
-/* texto acima do overlay */
-.nav-label{ position:relative; z-index:1; }
-`;
-
-
-
 
 const BRAND = { name: "MRM Ar Condicionado — Sistema", accentFrom: "#027a10ff", accentTo: "#003617" };
 
@@ -328,8 +263,7 @@ export default function App() {
     <div className={dark ? "text-slate-100 bg-[#0d1220]" : "text-slate-100 bg-[#0d1220]"}
          style={{ minHeight: "100vh", backgroundImage: 'radial-gradient(1200px 300px at 20% -10%, rgba(255,255,255,.06), transparent), radial-gradient(1000px 400px at 110% 10%, rgba(16,185,129,.14), transparent)'}}
     >
-      <style>{AIBORDER_CSS + FORM_DARK_CSS + BORDER_GRADIENT_CSS + NAV_GRADIENT_CSS}</style>
-
+      <style>{AIBORDER_CSS + FORM_DARK_CSS}</style>
       <header className="sticky top-0 z-30 backdrop-blur-xl bg-white/0">
         <div className="mx-auto max-w-[1600px] px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -345,139 +279,36 @@ export default function App() {
       <div className="mx-auto max-w-[1600px] px-4">
         <div className="flex items-end justify-between gap-3 flex-wrap">
           <motion.h1 initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="text-4xl md:text-5xl font-extrabold tracking-tight">{NAV.find((n) => n.id === route)?.label}</motion.h1>
-
-{/* novo */}
-
-<div className="flex items-center gap-2 overflow-x-auto ml-auto pb-1">
-  {NAV.map(({ id, label }) => {
-    const active = route === id;
-    return (
-      <button
-        key={id}
-        onClick={() => setRoute(id)}
-        className={`nav-chip px-4 py-2 rounded-2xl border
-                    ${active ? 'border-transparent' : 'border-white/10'}
-                    ${active ? 'text-white' : 'text-slate-100'}
-                    ${active ? 'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)]' : ''}
-                    bg-white/5 hover:bg-white/10`}
-        style={{ contain: 'layout paint' }}
-      >
-        {active && (
-          <motion.div
-            layoutId="nav-active"
-            className="nav-active-surface"
-            transition={{ type: 'spring', stiffness: 300, damping: 36, mass: 0.6 }}
-          />
-        )}
-        <span className="nav-label font-semibold whitespace-nowrap">{label}</span>
-      </button>
-    );
-  })}
-</div>
+          <div className="flex items-center gap-2 overflow-x-auto ml-auto pb-1">
+            {NAV.map(({ id, label }) => (
+              <button key={id} onClick={() => setRoute(id)} className={`px-4 py-2 rounded-2xl border border-white/10 ${route === id ? "bg-white/15" : "bg-white/5 hover:bg-white/10"}`}>
+                <span className="font-semibold whitespace-nowrap">{label}</span>
+              </button>
+            ))}
+          </div>
         </div>
         <p className="mt-2 text-xs text-slate-400">Desenvolvido por rafaelmensen</p>
       </div>
 
-
-      
-
-<main className="mx-auto max-w-[1600px] px-4 pb-12 pt-3">
-  <div className="relative rounded-[26px] mb-6 overflow-hidden">
-    {/* Fundo + borda discreta (seu original) */}
-    <motion.div
-      key={`surface-${route}`}
-      layoutId={`surface-${route}`}
-      className="absolute inset-0 rounded-[26px] border border-white/10"
-      style={{ background: "rgba(255,255,255,0.04)" }}
-      transition={{ type: "spring", stiffness: 420, damping: 36, mass: 0.6 }}
-    />
-
-    {/* Borda animada: SVG com stroke alinhado no rx=26 (sem preencher nada) */}
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      aria-hidden
-    >
-      <defs>
-        {/* gradiente que gira sobre a caixa (cores “andando” pela borda) */}
-        <linearGradient id={`spinGrad-${route}`} x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
-          <stop offset="0%"   stopColor="#22c55e"/>
-          <stop offset="50%"  stopColor="#0ea5e9"/>
-          <stop offset="100%" stopColor="#8b5cf6"/>
-          <animateTransform
-            attributeName="gradientTransform"
-            type="rotate"
-            from="0 .5 .5" to="360 .5 .5"
-            dur="8s" repeatCount="indefinite"
-          />
-        </linearGradient>
-      </defs>
-
-      {/* OBS: x/y = 1px e strokeWidth=2 -> stroke fica TODO para dentro, não corta */}
-      <rect
-        x="1" y="1"
-        width="calc(100% - 2px)" height="calc(100% - 2px)"
-        rx="26" ry="26"
-        fill="none"
-        stroke={`url(#spinGrad-${route})`}
-        strokeWidth="2"
-        vectorEffect="non-scaling-stroke"
-        shapeRendering="geometricPrecision"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-    </svg>
-
-    {/* Conteúdo */}
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={route}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
-        transition={{ duration: 0.22, ease: "easeOut", delay: 0.08 }}
-        className="relative z-10 p-4 md:p-6"
-      >
+      <main className="mx-auto max-w-[1600px] px-4 pb-12 pt-3">
         {route === "gerencial" && <Gerencial itens={lancamentos} prices={prices} />}
-
         {route === "realizar" && (
           <RealizarOrcamento
             prices={prices}
-            onSave={(orc) => {
-              setLancamentos((prev) => [{ id: cryptoId(), ...orc }, ...prev]);
-              setRoute("lancamentos");
-            }}
+            onSave={(orc) => { setLancamentos((prev) => [{ id: cryptoId(), ...orc }, ...prev]); setRoute("lancamentos"); }}
           />
         )}
-
         {route === "lancamentos" && (
           <Lancamentos
             itens={lancamentos}
-            onDelete={(id) => setLancamentos((prev) => prev.filter((i) => i.id !== id))}
-            onToggleAprovado={(id) =>
-              setLancamentos((prev) =>
-                prev.map((i) =>
-                  i.id === id ? { ...i, status: i.status === "Aprovado" ? "Pendente" : "Aprovado" } : i
-                )
-              )
-            }
-            onSetPago={(id, val) =>
-              setLancamentos((prev) => prev.map((i) => (i.id === id ? { ...i, pago: val } : i)))
-            }
-            onPatch={(id, patch) =>
-              setLancamentos((prev) => prev.map((i) => (i.id === id ? { ...i, ...patch } : i)))
-            }
+            onDelete={(id)=>setLancamentos(prev=>prev.filter(i=>i.id!==id))}
+            onToggleAprovado={(id)=>setLancamentos(prev=>prev.map(i=> i.id===id ? { ...i, status: (i.status==='Aprovado'? 'Pendente' : 'Aprovado') } : i))}
+            onSetPago={(id, val)=>setLancamentos(prev=>prev.map(i=> i.id===id ? { ...i, pago: val } : i))}
+            onPatch={(id, patch)=>setLancamentos(prev=>prev.map(i=> i.id===id ? { ...i, ...patch } : i))}
           />
         )}
-
-        {route === "precificacao" && <Precificacao prices={prices} onChange={setPrices} />}
-      </motion.div>
-    </AnimatePresence>
-  </div>
-</main>
-
-
-
-
+        {route === "precificacao" && <Precificacao prices={prices} onChange={setPrices}/>}
+      </main>
     </div>
   );
 }
