@@ -74,75 +74,12 @@ header {
       </div>
 
       <div class="top-right">
-        <div aria-hidden>🔍</div>
-        <div class="top-avatar">
-          <div class="avatar">RG</div>
-          <div class="meta">
-            <div class="name">Rafael G.</div>
-            <div class="sub">Agência 01</div>
-          </div>
-        </div>
-        <div aria-hidden>🔔</div>
-      </div>
-    </header>
-
-    <div class="layout">
-      <aside class="sidebar" role="navigation" aria-label="Barra lateral">
-        <div class="icon" title="Home">-</div>
-        <div class="icon" title="Grid">-</div>
-        <div class="icon" title="Settings">-</div>
-        <div class="icon" title="Messages">-</div>
-        <div class="icon" title="Video">-</div>
-        <div class="icon" title="List">-</div>
-        <div class="icon" title="Search">-</div>
-        <div class="icon" title="Store">-</div>
-        <div class="icon" title="Users">-</div>
-        <div class="icon" title="Headphones">-</div>
-
-        <div class="bottom">
-          <div class="icon" title="Analytics">📊</div>
-        </div>
-      </aside>
-
-      <main>
-        <div class="card">
-          <div class="card-header">
-            <h2>Power BI</h2>
-
-            <div class="search-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
-                <circle cx="11" cy="11" r="7"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <input placeholder="Procurar..." />
-            </div>
-          </div>
-
-          <div class="card-body">
-            <div class="results">
-              <div class="empty">Sem resultados encontrados</div>
+        
 
 
-   
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
-</body>
-</html>
-
-          </div>
-        </main>
-      </div>
-    </div>
-  );
-}
 
 
+mmmm
 
 
 
