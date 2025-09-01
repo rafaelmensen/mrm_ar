@@ -23,29 +23,38 @@ aside.sidebar{width:60px;border-right:1px solid var(--border);background:#fff;pa
 /* Main */
 main.main{flex:1;padding:24px;position:relative}
 .panel{border:1px solid var(--border);background:#fff;border-radius:12px;box-shadow:0 1px 2px rgba(2,6,23,.05)}
+
 /* Header fixo */
 .panel-hd{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;height:var(--ph);padding:12px 20px;background:#fff;border-bottom:1px solid var(--border)}
 .panel-hd h2{margin:0;font-size:18px}
 .search{position:relative}
 .search input{width:320px;max-width:42vw;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:10px;font-size:14px}
 .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8}
-/* Voltar verde animado */
-.back-cta{display:none;align-items:center;gap:8px;border:1px solid #34d399;background:#10b981;color:#fff;border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:600}
-@keyframes breathe{0%{transform:scale(1)}50%{transform:scale(1.015)}100%{transform:scale(1)}}
-.back-cta.anim{animation:breathe 2.4s ease-in-out infinite;box-shadow:0 8px 18px rgba(16,185,129,.25)}
+
+/* Voltar verde (sem animação, sem opacidade/fosco) */
+.back-cta{display:none;align-items:center;gap:8px;border:1px solid #059669;background:#10b981;color:#fff;border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:700;box-shadow:0 6px 14px rgba(16,185,129,.22)}
+.back-cta:hover{filter:brightness(0.98)}
 
 /* Sections */
 .navbox{padding:18px}
 .section{border:1px solid var(--border);border-radius:14px;background:#fff;box-shadow:0 4px 14px rgba(2,6,23,.05);margin-bottom:18px;overflow:hidden}
 .section-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;font-weight:700;transition:transform .16s, background .16s, box-shadow .16s}
 .section-hd:hover{background:#f8fafc;transform:scale(1.01);box-shadow:inset 0 0 0 1px #e5e7eb}
-.sec-title{font-size:20px}  /* título maior */
+.sec-title{font-size:20px}
 .section-hd .right{display:flex;align-items:center;gap:10px}
 .badge-update{font-size:11px;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;border-radius:999px;padding:4px 8px}
 .chev{transition:transform .18s}
 .section.open .chev{transform:rotate(180deg)}
-.section.camp.open{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#22c55e,#14b8a6,#0ea5e9,#22c55e) border-box;border:2px solid transparent;animation:flow 6s linear infinite}
+
+/* borda imersiva para QUALQUER seção aberta marcada como .immersive */
+.section.immersive.open{
+  background:linear-gradient(#fff,#fff) padding-box,
+             linear-gradient(90deg,#22c55e,#14b8a6,#0ea5e9,#22c55e) border-box;
+  border:2px solid transparent;
+  animation:flow 6s linear infinite;
+}
 @keyframes flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
 .section-body{height:0;overflow:hidden}
 .section.open .section-body{height:auto}
 .collapsing{transition:height .35s ease}
@@ -76,6 +85,7 @@ main.main{flex:1;padding:24px;position:relative}
 .viewer{padding:16px;display:flex;flex-direction:column;gap:16px}
 .frame{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;min-height:60vh;display:grid;place-items:center;color:#64748b}
 .frame iframe{width:100%;height:70vh;border:0;border-radius:12px}
+
 /* Related */
 .related{border-top:1px solid var(--border);padding-top:12px}
 .related h4{margin:0 0 10px 0;font-size:14px}
@@ -159,7 +169,8 @@ function buildNav(filter=""){
     if(!list.length) return;
 
     const s = document.createElement("div");
-    s.className = "section " + (sec==="Campanhas" ? "camp" : "");
+    // agora ambas seções são imersivas (borda animada quando abertas)
+    s.className = "section immersive";
     s.dataset.section = sec;
 
     const hd = document.createElement("div");
@@ -175,6 +186,7 @@ function buildNav(filter=""){
 
     list.forEach(it=>{
       const card = document.createElement("div");
+      // cards de Campanhas continuam com “Novo”
       card.className = "card" + (sec==="Campanhas" ? " glow" : "");
       card.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center">
@@ -242,13 +254,11 @@ function buildRelated(newItem){
 function openDash(section, id){
   const item = (DATA[section]||[]).find(i=>i.id===id); if(!item) return;
 
-  // título apenas com o nome do dash
   pageTitle.textContent = item.title;
 
-  // esconder pesquisa e mostrar CTA verde animado
+  // tira a pesquisa e mostra o botão verde sem animação
   rightSearch.style.display = "none";
   backCta.style.display = "inline-flex";
-  backCta.classList.add("anim");
   backCta.onclick = backToMenu;
 
   // iframe
@@ -272,7 +282,6 @@ function backToMenu(){
   document.getElementById("overlay").classList.remove("show");
   pageTitle.textContent = "Dashboards";
   backCta.style.display = "none";
-  backCta.classList.remove("anim");
   rightSearch.style.display = "block";
 }
 
