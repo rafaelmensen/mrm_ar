@@ -232,3 +232,235 @@ mmmm
   </div>
 </body>
 </html>
+
+
+
+kkkkk
+
+
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sicredi • Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EFF3F8; --card:#FFFFFF; --muted:#6b7280; --border:#E4E6EB; --accent:#10b981; --ink:#0f172a;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,"Segoe UI",Roboto;color:var(--ink);background:var(--bg)}
+.container{min-height:100vh;display:flex;flex-direction:column}
+
+/* TOP */
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:#fff;border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo .mark{width:28px;height:28px;border-radius:999px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:700}
+.logo .title{color:#059669;font-weight:700;letter-spacing:.2px}
+.top-right{display:flex;align-items:center;gap:16px}
+.pill{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;color:#6b7280;background:#f8fafc;border:1px solid var(--border)}
+.top-avatar{display:flex;align-items:center;gap:10px}
+.avatar{width:36px;height:36px;border-radius:999px;background:#e2e8f0;color:#334155;display:grid;place-items:center;font-weight:700}
+.meta{font-size:12px;line-height:1}.meta .name{font-weight:600;font-size:13px}.meta .sub{color:var(--muted)}
+
+/* LAYOUT */
+.layout{display:flex;flex:1;min-height:0}
+aside.sidebar{width:60px;border-right:1px solid var(--border);background:#fff;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#667085;cursor:pointer;transition:transform .12s,color .12s,box-shadow .18s}
+.icon:hover{color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(2,6,23,.08)}
+.sidebar .bottom{margin-top:auto;margin-bottom:8px}
+main{flex:1;padding:24px;min-width:0}
+
+/* CARD */
+.card{border:1px solid var(--border);background:#fff;border-radius:12px;box-shadow:0 1px 2px rgba(2,6,23,.04)}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.card-header h2{margin:0;font-size:18px}
+.search-wrap{position:relative}
+.search-wrap input{width:260px;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:10px;font-size:14px;outline:none}
+.search-wrap input:focus{border-color:#a7f3d0;box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8}
+
+.grid{display:grid;gap:18px;padding:18px}
+.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tile{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px}
+.tile h3{margin:0 0 8px;font-size:15px}
+.tile p{margin:0 0 16px;font-size:12px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer}
+.btn.primary{border-color:#34d399;background:#ecfdf5;color:#065f46}
+.btn:hover{filter:brightness(0.98)}
+.back{display:inline-flex;align-items:center;gap:6px;color:#64748b;font-size:14px;cursor:pointer}
+.hidden{display:none}
+
+.pagination{padding:12px;border-top:1px solid var(--border);display:flex;justify-content:center;align-items:center;gap:18px;color:#94a3b8;font-size:12px}
+.pg-btn{background:none;border:none;color:#9aa3b2;cursor:pointer;padding:6px 8px;border-radius:6px}
+.pg-btn:hover{color:var(--accent)}
+.dots{display:inline-flex;gap:10px}.dot{width:6px;height:6px;border-radius:999px;background:#cbd5e1}
+
+@media (max-width:900px){ .grid.cols-3{grid-template-columns:1fr} .grid.cols-2{grid-template-columns:1fr} .search-wrap input{width:170px} }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- TOP -->
+  <header>
+    <div class="logo"><div class="mark">S</div><div class="title">Sicredi</div></div>
+    <div class="top-right">
+      <div class="pill">🔍</div>
+      <div class="top-avatar">
+        <div class="avatar">RG</div>
+        <div class="meta"><div class="name">Rafael G.</div><div class="sub">Agência 01</div></div>
+      </div>
+      <div class="pill">🔔</div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Barra lateral">
+      <div class="icon" onclick="go('home')" title="Home">🏠</div>
+      <div class="icon" onclick="go('campanhas')" title="Campanhas">🗂️</div>
+      <div class="icon" onclick="go('dashboards')" title="Dashboards">📊</div>
+      <div class="bottom"><div class="icon">⚙️</div></div>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+      <!-- HOME -->
+      <section id="view-home" class="card">
+        <div class="card-header">
+          <h2>Categorias</h2>
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input placeholder="Procurar..." />
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <!-- Card Campanha -->
+          <div class="tile">
+            <small class="sub">Minítitulo</small>
+            <h3>Campanha</h3>
+            <p>Listas e dashboards de campanhas.</p>
+            <button class="btn primary" onclick="go('campanhas')">Acessar</button>
+          </div>
+
+          <!-- Card Dashboards -->
+          <div class="tile">
+            <small class="sub">Minítitulo</small>
+            <h3>Dashboards</h3>
+            <p>Acesso rápido aos dashboards 1, 2 e 3.</p>
+            <button class="btn primary" onclick="go('dashboards')">Acessar</button>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button class="pg-btn">«</button><button class="pg-btn">‹</button>
+          <span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+          <button class="pg-btn">›</button><button class="pg-btn">»</button>
+        </div>
+      </section>
+
+      <!-- CAMPANHAS -->
+      <section id="view-campanhas" class="card hidden">
+        <div class="card-header">
+          <div class="back" onclick="go('home')">← Voltar</div>
+          <h2 style="margin-left:8px">Campanhas</h2>
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input placeholder="Procurar..." />
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="tile"><h3>Bola na Rede</h3><p>Campanha Bola na Rede</p><button class="btn" onclick="go('dashboards')">Abrir</button></div>
+          <div class="tile"><h3>Viva o Rio</h3><p>Campanha Viva o Rio</p><button class="btn" onclick="go('dashboards')">Abrir</button></div>
+          <div class="tile"><h3>Feirão</h3><p>Ofertas especiais</p><button class="btn" onclick="go('dashboards')">Abrir</button></div>
+          <div class="tile"><h3>Associados+</h3><p>Relacionamento</p><button class="btn" onclick="go('dashboards')">Abrir</button></div>
+        </div>
+
+        <div class="pagination">
+          <button class="pg-btn">«</button><button class="pg-btn">‹</button>
+          <span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+          <button class="pg-btn">›</button><button class="pg-btn">»</button>
+        </div>
+      </section>
+
+      <!-- DASHBOARDS -->
+      <section id="view-dashboards" class="card hidden">
+        <div class="card-header">
+          <div class="back" onclick="go('campanhas')">← Voltar</div>
+          <h2 style="margin-left:8px">Dashboards</h2>
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input placeholder="Procurar..." />
+          </div>
+        </div>
+
+        <div class="grid cols-3">
+          <div class="tile">
+            <h3>Dash 1</h3><p>Resumo operacional</p>
+            <button class="btn primary" onclick="openDash(1)">Abrir</button>
+          </div>
+          <div class="tile">
+            <h3>Dash 2</h3><p>Agências e gerentes</p>
+            <button class="btn primary" onclick="openDash(2)">Abrir</button>
+          </div>
+          <div class="tile">
+            <h3>Dash 3</h3><p>Analítico</p>
+            <button class="btn primary" onclick="openDash(3)">Abrir</button>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button class="pg-btn">«</button><button class="pg-btn">‹</button>
+          <span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+          <button class="pg-btn">›</button><button class="pg-btn">»</button>
+        </div>
+      </section>
+
+      <!-- DASH DETAIL -->
+      <section id="view-dash-detail" class="card hidden">
+        <div class="card-header">
+          <div class="back" onclick="go('dashboards')">← Voltar</div>
+          <h2 id="dash-title" style="margin-left:8px">Dash</h2>
+          <div style="width:260px"></div>
+        </div>
+        <div class="grid cols-2">
+          <div class="tile"><h3>Visão</h3><p>Iframe/BI aqui.</p><button class="btn">Placeholder</button></div>
+          <div class="tile"><h3>KPIs</h3><p>Métricas chave.</p><button class="btn">Placeholder</button></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+const views = ["home","campanhas","dashboards","dash-detail"];
+function go(name){
+  views.forEach(v=>document.getElementById(`view-${v}`).classList.add("hidden"));
+  document.getElementById(`view-${name}`).classList.remove("hidden");
+  history.replaceState({}, "", `#${name}`);
+}
+function openDash(n){
+  document.getElementById("dash-title").textContent = `Dash ${n}`;
+  go("dash-detail");
+}
+window.addEventListener("load",()=>{
+  const route = location.hash.replace("#","");
+  go(views.includes(route)?route:"home");
+});
+</script>
+</body>
+</html>
