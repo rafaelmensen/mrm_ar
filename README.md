@@ -26,19 +26,20 @@ main.main{flex:1;padding:24px;position:relative}
 /* Header fixo */
 .panel-hd{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;height:var(--ph);padding:12px 20px;background:#fff;border-bottom:1px solid var(--border)}
 .panel-hd h2{margin:0;font-size:18px}
-.hd-left{display:flex;align-items:center;gap:8px}
 .search{position:relative}
 .search input{width:320px;max-width:42vw;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:10px;font-size:14px}
 .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8}
-/* Back CTA no lugar da pesquisa quando um dash estiver aberto */
+/* Voltar verde animado */
 .back-cta{display:none;align-items:center;gap:8px;border:1px solid #34d399;background:#10b981;color:#fff;border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:600}
-@keyframes breathe{0%{transform:translateZ(0) scale(1)}50%{transform:translateZ(0) scale(1.015)}100%{transform:translateZ(0) scale(1)}}
+@keyframes breathe{0%{transform:scale(1)}50%{transform:scale(1.015)}100%{transform:scale(1)}}
 .back-cta.anim{animation:breathe 2.4s ease-in-out infinite;box-shadow:0 8px 18px rgba(16,185,129,.25)}
 
 /* Sections */
 .navbox{padding:18px}
 .section{border:1px solid var(--border);border-radius:14px;background:#fff;box-shadow:0 4px 14px rgba(2,6,23,.05);margin-bottom:18px;overflow:hidden}
-.section-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;font-weight:600}
+.section-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;font-weight:700;transition:transform .16s, background .16s, box-shadow .16s}
+.section-hd:hover{background:#f8fafc;transform:scale(1.01);box-shadow:inset 0 0 0 1px #e5e7eb}
+.sec-title{font-size:20px}  /* título maior */
 .section-hd .right{display:flex;align-items:center;gap:10px}
 .badge-update{font-size:11px;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;border-radius:999px;padding:4px 8px}
 .chev{transition:transform .18s}
@@ -75,7 +76,6 @@ main.main{flex:1;padding:24px;position:relative}
 .viewer{padding:16px;display:flex;flex-direction:column;gap:16px}
 .frame{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;min-height:60vh;display:grid;place-items:center;color:#64748b}
 .frame iframe{width:100%;height:70vh;border:0;border-radius:12px}
-
 /* Related */
 .related{border-top:1px solid var(--border);padding-top:12px}
 .related h4{margin:0 0 10px 0;font-size:14px}
@@ -101,10 +101,8 @@ main.main{flex:1;padding:24px;position:relative}
     <section class="panel">
       <!-- header fixo -->
       <div class="panel-hd">
-        <div class="hd-left">
-          <h2 id="pageTitle">Dashboards</h2>
-        </div>
-        <!-- Direita: pesquisa por padrão; vira botão Voltar quando um dash abre -->
+        <h2 id="pageTitle">Dashboards</h2>
+        <!-- direita: pesquisa (padrão) ou CTA voltar (em dash aberto) -->
         <div id="rightSearch" class="search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <input id="q" placeholder="Pesquisar por título…" oninput="filterAll()"/>
@@ -166,7 +164,7 @@ function buildNav(filter=""){
 
     const hd = document.createElement("div");
     hd.className="section-hd";
-    hd.innerHTML = `<span>${sec}</span>
+    hd.innerHTML = `<span class="sec-title">${sec}</span>
       <div class="right">${sec==="Placares"?`<span class="badge-update">Nova atualização</span>`:""}<span class="chev">▾</span></div>`;
     hd.addEventListener("click",()=>toggleSection(s));
     s.appendChild(hd);
@@ -222,7 +220,7 @@ function closeSection(el){
   el.classList.remove("open");
 }
 
-/* relacionados: inclui o que estava aberto (swap) */
+/* relacionados + swap */
 function buildRelated(newItem){
   const rel = document.getElementById("relGrid"); rel.innerHTML = "";
   const pool = [];
@@ -240,14 +238,14 @@ function buildRelated(newItem){
   });
 }
 
-/* open dash */
+/* abrir dash */
 function openDash(section, id){
   const item = (DATA[section]||[]).find(i=>i.id===id); if(!item) return;
 
-  // título: só o nome do dash
+  // título apenas com o nome do dash
   pageTitle.textContent = item.title;
 
-  // trocar pesquisa pelo botão voltar verde animado
+  // esconder pesquisa e mostrar CTA verde animado
   rightSearch.style.display = "none";
   backCta.style.display = "inline-flex";
   backCta.classList.add("anim");
@@ -258,7 +256,7 @@ function openDash(section, id){
   const ifr = document.createElement("iframe"); ifr.src = item.embedUrl || "about:blank"; ifr.loading="lazy";
   fw.appendChild(ifr);
 
-  // relacionados e swap
+  // relacionados / swap
   buildRelated(item);
   currentDash = item;
 
