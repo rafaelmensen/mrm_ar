@@ -1,132 +1,140 @@
 <img width="1912" height="921" alt="image" src="https://github.com/user-attachments/assets/f26ae8a7-a164-4df6-abd7-f70b8fa46274" />
    
 
-
-// App.tsx
-import React from "react";
-import {
-  Home,
-  Settings,
-  Grid,
-  MessageSquare,
-  Video,
-  ClipboardList,
-  Search,
-  ShoppingBag,
-  Users,
-  Headphones,
-  BarChart3,
-  Bell,
-} from "lucide-react";
-
-/** Layout primitives */
-function SidebarIcon({ children }: { children: React.ReactNode }) {
-  return (
-    <button className="w-11 h-11 grid place-items-center rounded-xl text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 transition">
-      {children}
-    </button>
-  );
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>App - Categorias</title>
+  <style>
+    :root{
+      --bg:#EFF3F8; --card:#FFFFFF; --muted:#5a5a5a; --border:#E1E0E4; --accent:#10b981;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#0f172a;background:var(--bg);}
+    .container{min-height:100vh;display:flex;flex-direction:column;}
+/* borda esquerda arredondada + sombra no header */
+header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  box-shadow: 10px 0 30px rgba(2,6,23,0.08); /* sombra à esquerda mais suave */
+  overflow: visible;
 }
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .mark{width:36px;height:36px;border-radius:8px;background:#e6eef6;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0f172a}
+    .top-right{display:flex;align-items:center;gap:16px}
+    .top-avatar{display:flex;align-items:center;gap:10px}
+    .avatar{width:40px;height:40px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .avatar .meta{font-size:13px;line-height:1}
+    .meta .name{font-weight:600}
+    .meta .sub{color:var(--muted);font-size:12px}
 
-function TopAvatar() {
-  return (
-    <div className="flex items-center gap-3">
-      <button className="relative w-10 h-10 grid place-items-center rounded-full text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 transition">
-        <Bell size={18} />
-      </button>
-      <div className="w-10 h-10 rounded-full bg-slate-200 grid place-items-center text-slate-600 font-semibold">
-        RG
+    .layout{display:flex;flex:1}
+    aside.sidebar{width:60px;border-right:1px solid var(--border);background:var(--card);padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#475569;cursor:pointer;transition:box-shadow .18s, transform .12s}
+    .icon:hover{color:var(--accent); transform:translateY(-2px); box-shadow: 0 6px 18px rgba(2,6,23,0.08)}
+    .sidebar .bottom{margin-top:auto;margin-bottom:12px}
+
+    main{flex:1;padding:24px}
+    .card{border-radius:12px;border:1px solid var(--border);background:var(--card);box-shadow:0 1px 2px rgba(2,6,23,0.04)}
+    .card .card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+    .card h2{margin:0;font-size:16px}
+    .search-wrap{position:relative}
+    .search-wrap input{padding:8px 12px 8px 36px;width:240px;border-radius:10px;border:1px solid var(--border);outline:none;font-size:14px}
+    .search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+
+    .card .card-body{padding:16px 20px}
+    .results{border-radius:12px;border:1px solid var(--border);background:var(--card);min-height:120px;box-shadow: 0 8px 24px rgba(2,6,23,0.06); padding:0; overflow:hidden}
+    .results .empty{padding:40px;text-align:center;color:var(--muted);font-size:14px}
+
+    .pagination{padding:12px;border-top:1px solid var(--border);display:flex;justify-content:center}
+    .pagination .dots{display:inline-flex;gap:8px;align-items:center}
+    .dot{width:8px;height:8px;border-radius:999px;background:#cbd5e1}
+    .pg-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:6px 8px;border-radius:6px}
+    .pg-btn:hover{color:var(--accent)}
+    @media (max-width:720px){
+      .search-wrap input{width:160px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="mark">S</div>
+        <div class="title">Sicredi</div>
       </div>
-      <div className="text-right leading-tight">
-        <div className="text-slate-700 text-sm font-semibold">Rafael G.</div>
-        <div className="text-slate-400 text-xs">Agência 01</div>
-      </div>
-    </div>
-  );
-}
 
-function Logo() {
-  return (
-    <div className="flex items-center gap-2 select-none">
-      <div className="w-7 h-7 rounded-full bg-emerald-600 grid place-items-center text-white text-xs font-bold">
-        S
-      </div>
-      <span className="text-emerald-700 font-semibold tracking-tight">Sicredi</span>
-    </div>
-  );
-}
-
-/** Page */
-export default function App() {
-  const categories: any[] = []; // vazio para reproduzir o estado “Sem resultados encontrados”
-
-  return (
-    <div className="min-h-screen bg-slate-100 text-slate-800">
-      {/* Top bar */}
-      <header className="h-14 px-5 border-b border-slate-200 bg-white flex items-center justify-between">
-        <Logo />
-        <TopAvatar />
-      </header>
-
-      {/* Body */}
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-[60px] shrink-0 border-r border-slate-200 bg-white pt-3 flex flex-col items-center gap-2">
-          <SidebarIcon><Home size={18} /></SidebarIcon>
-          <SidebarIcon><Grid size={18} /></SidebarIcon>
-          <SidebarIcon><Settings size={18} /></SidebarIcon>
-          <SidebarIcon><MessageSquare size={18} /></SidebarIcon>
-          <SidebarIcon><Video size={18} /></SidebarIcon>
-          <SidebarIcon><ClipboardList size={18} /></SidebarIcon>
-          <SidebarIcon><Search size={18} /></SidebarIcon>
-          <SidebarIcon><ShoppingBag size={18} /></SidebarIcon>
-          <SidebarIcon><Users size={18} /></SidebarIcon>
-          <SidebarIcon><Headphones size={18} /></SidebarIcon>
-          <div className="mt-auto mb-3">
-            <SidebarIcon><BarChart3 size={18} /></SidebarIcon>
+      <div class="top-right">
+        <div aria-hidden>🔍</div>
+        <div class="top-avatar">
+          <div class="avatar">RG</div>
+          <div class="meta">
+            <div class="name">Rafael G.</div>
+            <div class="sub">Agência 01</div>
           </div>
-        </aside>
+        </div>
+        <div aria-hidden>🔔</div>
+      </div>
+    </header>
 
-        {/* Main */}
-        <main className="flex-1 p-6">
-          {/* Card “Categorias” */}
-          <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-            {/* Card header */}
-            <div className="flex items-center justify-between px-5 py-4">
-              <h2 className="text-lg font-semibold">Categorias</h2>
+    <div class="layout">
+      <aside class="sidebar" role="navigation" aria-label="Barra lateral">
+        <div class="icon" title="Home">-</div>
+        <div class="icon" title="Grid">-</div>
+        <div class="icon" title="Settings">-</div>
+        <div class="icon" title="Messages">-</div>
+        <div class="icon" title="Video">-</div>
+        <div class="icon" title="List">-</div>
+        <div class="icon" title="Search">-</div>
+        <div class="icon" title="Store">-</div>
+        <div class="icon" title="Users">-</div>
+        <div class="icon" title="Headphones">-</div>
 
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                <input
-                  placeholder="Procurar..."
-                  className="pl-9 pr-3 py-2 w-64 rounded-lg border border-slate-200 bg-white text-sm outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400"
-                />
+        <div class="bottom">
+          <div class="icon" title="Analytics">📊</div>
+        </div>
+      </aside>
+
+      <main>
+        <div class="card">
+          <div class="card-header">
+            <h2>Power BI</h2>
+
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+                <circle cx="11" cy="11" r="7"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input placeholder="Procurar..." />
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="results">
+              <div class="empty">Sem resultados encontrados</div>
+
+
+   
+
               </div>
             </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
 
-            {/* Content */}
-            <div className="px-5 pb-4">
-              <div className="rounded-lg border border-slate-200 bg-white">
-                <div className="p-8 text-sm text-slate-400">
-                  {categories.length === 0 ? "Sem resultados encontrados" : null}
-                </div>
-
-                {/* Pagination */}
-                <div className="px-4 py-3 border-t border-slate-200">
-                  <div className="flex items-center justify-center gap-4 text-slate-400 text-xs">
-                    <button className="hover:text-emerald-600 transition">«</button>
-                    <button className="hover:text-emerald-600 transition">‹</button>
-                    <span className="inline-flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-slate-300" />
-                      <span className="w-1 h-1 rounded-full bg-slate-300" />
-                      <span className="w-1 h-1 rounded-full bg-slate-300" />
-                    </span>
-                    <button className="hover:text-emerald-600 transition">›</button>
-                    <button className="hover:text-emerald-600 transition">»</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </main>
       </div>
