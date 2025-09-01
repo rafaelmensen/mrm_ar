@@ -1,5 +1,154 @@
+5
 <img width="1912" height="921" alt="image" src="https://github.com/user-attachments/assets/f26ae8a7-a164-4df6-abd7-f70b8fa46274" />
    
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sicredi • Navegação Vertical</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EFF3F8;--card:#fff;--muted:#6b7280;--border:#E4E6EB;--accent:#10b981;--ink:#0f172a}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,"Segoe UI",Roboto;color:var(--ink);background:var(--bg)}
+
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:#fff;border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px}.logo .mark{width:28px;height:28px;border-radius:999px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:700}
+.logo .title{color:#059669;font-weight:700}
+
+.layout{display:flex;min-height:calc(100vh - 58px)}
+nav{width:300px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:8px;padding:16px}
+.nav-search{position:relative;margin-bottom:6px}
+.nav-search input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:10px;font-size:14px}
+.nav-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8}
+
+.section{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.section summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-weight:600}
+.section[open] summary{background:#f8fafc}
+.chev{transition:transform .15s}.section[open] .chev{transform:rotate(180deg)}
+
+.section-body{padding:10px 12px 14px;display:flex;flex-direction:column;gap:10px}
+.dash{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.dash-title{font-size:14px;font-weight:600;margin:0}
+.dash-desc{font-size:12px;color:var(--muted);margin:0}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{padding:3px 8px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:#065f46;background:#ecfdf5;cursor:pointer}
+.tag.hidden-tag{display:none}
+.toggle-tags{font-size:12px;color:#0ea5e9;cursor:pointer}
+.open-btn{align-self:flex-start;border:1px solid var(--border);border-radius:10px;background:#ecfdf5;color:#065f46;padding:6px 10px;cursor:pointer}
+.counter{font-size:12px;color:#6b7280}
+
+main{flex:1;padding:24px}
+.card{border:1px solid var(--border);background:#fff;border-radius:12px;box-shadow:0 1px 2px rgba(2,6,23,.04);overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.card-header h2{margin:0;font-size:18px}
+.viewer{padding:18px}
+.frame{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;height:520px;display:grid;place-items:center;color:#64748b}
+.frame iframe{width:100%;height:100%;border:0;border-radius:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="mark">S</div><div class="title">Sicredi</div></div>
+</header>
+
+<div class="layout">
+  <nav>
+    <div class="nav-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input id="navQuery" placeholder="Pesquisar tags/título…" oninput="applyNavFilter()">
+    </div>
+    <div id="navSections"></div>
+  </nav>
+
+  <main>
+    <section class="card">
+      <div class="card-header"><h2 id="dashTitle">Selecione um dashboard</h2><div id="dashCounter" class="counter"></div></div>
+      <div class="viewer">
+        <div id="frameWrap" class="frame"><span>Nenhum dash aberto</span></div>
+        <div id="dashTags" class="tags" style="margin-top:12px"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const DATA = {
+  "Campanhas":[
+    {id:"bola",title:"Bola na Rede",desc:"Campanha bola na rede",embedUrl:"https://app.powerbi.com/view?r=REPLACE_BOLA",tags:{main:["campanhas","bola"],hidden:["rede","marketing"]}},
+    {id:"rio",title:"Viva o Rio",desc:"Campanha Viva o Rio",embedUrl:"https://app.powerbi.com/view?r=REPLACE_RIO",tags:{main:["campanhas","rio"],hidden:["evento","captação"]}}
+  ],
+  "Placares":[
+    {id:"agencia",title:"Placar Agência",desc:"Por agências",embedUrl:"https://app.powerbi.com/view?r=REPLACE_AG",tags:{main:["placar","agência"],hidden:["meta"]}},
+    {id:"gestor",title:"Placar Gestor",desc:"Por gestor",embedUrl:"https://app.powerbi.com/view?r=REPLACE_GE",tags:{main:["placar","gestor"],hidden:["produtividade"]}},
+    {id:"analitico",title:"Placar Analítico",desc:"Visão analítica",embedUrl:"https://app.powerbi.com/view?r=REPLACE_AN",tags:{main:["placar","analítico"],hidden:["drill"]}}
+  ]
+};
+
+function renderNav(filter=""){
+  const nav=document.getElementById("navSections");nav.innerHTML="";
+  const q=filter.toLowerCase();
+  Object.entries(DATA).forEach(([sec,items])=>{
+    const group=items.filter(it=>{
+      const all=[...it.tags.main,...it.tags.hidden].join(" ").toLowerCase();
+      return !q||all.includes(q)||it.title.toLowerCase().includes(q)||it.desc.toLowerCase().includes(q);
+    });
+    if(!group.length)return;
+    const det=document.createElement("details");det.className="section";det.open=true;
+    det.innerHTML=`<summary>${sec}<span class="chev">▾</span></summary>`;
+    const body=document.createElement("div");body.className="section-body";
+    group.forEach(it=>{
+      const div=document.createElement("div");div.className="dash";
+      div.innerHTML=`<h4 class="dash-title">${it.title}</h4>
+        <p class="dash-desc">${it.desc}</p>
+        <div class="tags">
+          ${it.tags.main.map(t=>`<span class="tag" onclick="openByTag('${t}')">#${t}</span>`).join("")}
+          ${it.tags.hidden.map(t=>`<span class="tag hidden-tag" onclick="openByTag('${t}')">#${t}</span>`).join("")}
+          <span class="toggle-tags" onclick="toggleHidden(this)">+ ver mais</span>
+        </div>
+        <button class="open-btn" onclick="openDash('${sec}','${it.id}')">Abrir</button>
+        <div class="counter" id="c-${it.id}">Acessos: ${getCount(it.id)}</div>`;
+      body.appendChild(div);
+    });
+    det.appendChild(body);nav.appendChild(det);
+  });
+}
+function toggleHidden(el){
+  const hidden=el.parentElement.querySelectorAll(".hidden-tag");
+  const show=hidden[0]?.style.display==="inline-flex";
+  hidden.forEach(t=>t.style.display=show?"none":"inline-flex");
+  el.textContent=show?"+ ver mais":"− ver menos";
+}
+function openByTag(tag){document.getElementById("navQuery").value=tag;applyNavFilter();}
+function applyNavFilter(){renderNav(document.getElementById("navQuery").value);}
+function getCount(id){return Number(localStorage.getItem("access:"+id)||0);}
+function openDash(sec,id){
+  const item=DATA[sec].find(i=>i.id===id);if(!item)return;
+  document.getElementById("dashTitle").textContent=item.title;
+  const wrap=document.getElementById("frameWrap");wrap.innerHTML="";
+  const ifr=document.createElement("iframe");ifr.src=item.embedUrl;wrap.appendChild(ifr);
+  const k="access:"+id;const n=getCount(id)+1;localStorage.setItem(k,n);document.getElementById("dashCounter").textContent="Acessos: "+n;document.getElementById("c-"+id).textContent="Acessos: "+n;
+  document.getElementById("dashTags").innerHTML=[...item.tags.main,...item.tags.hidden].map(t=>`<span class="tag" onclick="openByTag('${t}')">#${t}</span>`).join("");
+}
+renderNav();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+kkkkkkkllllll
 
 <!doctype html>
 <html lang="pt-BR">
