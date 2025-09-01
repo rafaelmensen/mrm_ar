@@ -8,46 +8,78 @@
 <style>
 :root{--bg:#EFF3F8;--card:#fff;--muted:#6b7280;--border:#E4E6EB;--accent:#10b981;--ink:#0f172a}
 *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,"Segoe UI",Roboto;color:var(--ink);background:var(--bg)}
+
 /* TOP */
 header{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:#fff;border-bottom:1px solid var(--border)}
 .logo{display:flex;align-items:center;gap:10px}.logo .mark{width:28px;height:28px;border-radius:999px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:700}
 .logo .title{color:#059669;font-weight:700}
+
 /* LAYOUT */
 .layout{display:flex;min-height:calc(100vh - 58px)}
 aside.sidebar{width:60px;border-right:1px solid var(--border);background:#fff;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:8px}
 .icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#667085;cursor:pointer;transition:transform .12s,color .12s,box-shadow .18s}
 .icon:hover{color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(2,6,23,.08)}
 .sidebar .bottom{margin-top:auto;margin-bottom:8px}
-/* MAIN (onde ficava a antiga div) */
-main.main{flex:1;padding:24px;position:relative} /* overlay fica relativo a este container */
+
+/* MAIN (container da navegação) */
+main.main{flex:1;padding:24px;position:relative}
 .panel{border:1px solid var(--border);background:#fff;border-radius:12px;box-shadow:0 1px 2px rgba(2,6,23,.04);overflow:hidden}
 .panel-hd{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
 .panel-hd h2{margin:0;font-size:18px}
 .search{position:relative}
 .search input{width:340px;max-width:42vw;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:10px;font-size:14px}
 .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8}
+
 /* NAV CENTRAL (accordion) */
 .navbox{padding:18px}
 .section{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;margin-bottom:12px}
 .section summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-weight:600}
 .section[open] summary{background:#f8fafc}
 .chev{transition:transform .15s}.section[open] .chev{transform:rotate(180deg)}
-.section-body{padding:10px 12px 14px;display:flex;flex-direction:column;gap:10px}
-.card{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.section-body{padding:12px 12px 16px;display:flex;flex-direction:column;gap:12px}
+
+/* PREVIEW CHIPS PARA “PLACARES” (mais profundidade) */
+.section-hint{display:flex;gap:8px;flex-wrap:wrap;margin:0 12px 12px}
+.hint{font-size:11px;color:#0ea5e9;background:#eff6ff;border:1px solid #dbeafe;border-radius:999px;padding:4px 8px}
+
+/* CARDS */
+.card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:8px}
 .card h4{margin:0;font-size:14px}
 .card p{margin:0;font-size:12px;color:var(--muted)}
-.btn{align-self:flex-start;border:1px solid var(--border);border-radius:10px;background:#ecfdf5;color:#065f46;padding:6px 10px;cursor:pointer}
 .counter{display:flex;gap:6px;align-items:center;font-size:12px;color:#6b7280}
 .eye{width:16px;height:16px}
-/* TAGS */
-.tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{padding:3px 8px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:#065f46;background:#ecfdf5;cursor:pointer}
-.tags.collapsed .tag{display:none}
-.tags.collapsed .tag.main{display:inline-flex}
-.toggle{font-size:12px;color:#0ea5e9;cursor:pointer}
-/* OVERLAY que surge NA FRENTE da navegação central */
+
+/* ANIMAÇÃO DE BORDA PARA “CAMPANHAS” = NOVO */
+.glow{
+  position:relative;border-radius:12px;
+  background:linear-gradient(#fff,#fff) padding-box,
+             linear-gradient(90deg,#22c55e,#14b8a6,#0ea5e9,#22c55e) border-box;
+  border:2px solid transparent;
+  animation:flow 5s linear infinite;
+}
+@keyframes flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.badge-new{font-size:10px;color:#047857;background:#d1fae5;border:1px solid #a7f3d0;border-radius:999px;padding:2px 6px}
+
+/* GRID “CAMPANHAS” lado a lado */
+.grid{display:grid;gap:12px}
+.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:860px){.grid.cols-2{grid-template-columns:1fr}}
+
+/* THUMB + CTA CENTRAL */
+.thumb{
+  position:relative;height:180px;border:1px dashed #cbd5e1;border-radius:10px;background:#f8fafc;display:grid;place-items:center;color:#64748b;overflow:hidden
+}
+.thumb .cta{
+  position:absolute;inset:auto 50% 50% auto;transform:translate(50%,50%);
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 14px;border-radius:12px;border:1px solid var(--border);
+  background:#ecfdf5;color:#065f46;font-weight:600;cursor:pointer
+}
+.thumb:hover .cta{filter:brightness(0.98)}
+
+/* OVERLAY (detalhe do dash) */
 .overlay{
-  position:absolute; inset:24px; /* dentro do main, em cima da nav */
+  position:absolute; inset:24px;
   background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 20px 40px rgba(2,6,23,.18);
   display:none; flex-direction:column; overflow:hidden; z-index:10;
 }
@@ -58,7 +90,6 @@ main.main{flex:1;padding:24px;position:relative} /* overlay fica relativo a este
 .viewer{padding:16px;display:flex;flex-direction:column;gap:10px}
 .frame{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;height:520px;display:grid;place-items:center;color:#64748b}
 .frame iframe{width:100%;height:100%;border:0;border-radius:12px}
-.viewer-tags{display:flex;gap:6px;flex-wrap:wrap}
 .ov-meta{display:flex;align-items:center;gap:10px}
 </style>
 </head>
@@ -68,7 +99,7 @@ main.main{flex:1;padding:24px;position:relative} /* overlay fica relativo a este
 </header>
 
 <div class="layout">
-  <!-- LATERAL ORIGINAL PRESERVADA -->
+  <!-- LATERAL -->
   <aside class="sidebar" role="navigation" aria-label="Barra lateral">
     <div class="icon" title="Home">🏠</div>
     <div class="icon" title="Campanhas">🗂️</div>
@@ -78,123 +109,151 @@ main.main{flex:1;padding:24px;position:relative} /* overlay fica relativo a este
     <div class="bottom"><div class="icon">⚙️</div></div>
   </aside>
 
-  <!-- A “div” central antiga. Agora com a nova navegação + overlay por cima -->
+  <!-- CONTEÚDO CENTRAL + OVERLAY -->
   <main class="main">
     <section class="panel">
       <div class="panel-hd">
         <h2>Dashboards</h2>
         <div class="search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input id="q" placeholder="Pesquisar por título ou tag…" oninput="filterAll()"/>
+          <input id="q" placeholder="Pesquisar por título…" oninput="filterAll()"/>
         </div>
       </div>
 
-      <!-- NAV CENTRAL EXPANSÍVEL -->
       <div id="accordion" class="navbox"></div>
     </section>
 
-    <!-- OVERLAY NA FRENTE DA NAVEGAÇÃO -->
+    <!-- OVERLAY -->
     <div id="overlay" class="overlay">
       <div class="ov-hd">
         <button class="back" onclick="closeOverlay()">← Voltar</button>
         <h3 id="ovTitle" class="ov-title">Dash</h3>
-        <div class="ov-meta">
-          <div class="counter" id="ovCounter">
-            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span>Acessos: 0</span>
-          </div>
+        <div class="ov-meta" id="ovCounter">
+          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Acessos: 0</span>
         </div>
       </div>
       <div class="viewer">
         <div id="frameWrap" class="frame"><span>Carregue um relatório</span></div>
-        <div id="viewerTags" class="viewer-tags"></div>
       </div>
     </div>
   </main>
 </div>
 
 <script>
-/* DATA */
+/* DATA (sem exibir tags; mantidas apenas internamente se quiser evoluir depois) */
 const DATA = {
   "Campanhas":[
-    {id:"bola",title:"Bola na Rede",desc:"Campanha bola na rede",embedUrl:"https://app.powerbi.com/view?r=REPLACE_BOLA",tags:{main:["campanhas","bola"],hidden:["rede","marketing","captação"]}},
-    {id:"rio", title:"Viva o Rio",  desc:"Campanha Viva o Rio",   embedUrl:"https://app.powerbi.com/view?r=REPLACE_RIO", tags:{main:["campanhas","rio"], hidden:["evento","engajamento"]}},
-    {id:"fei", title:"Feirão",       desc:"Ofertas especiais",    embedUrl:"https://app.powerbi.com/view?r=REPLACE_FEI", tags:{main:["campanhas","ofertas"], hidden:["promo","vendas"]}},
-    {id:"ass", title:"Associados+",  desc:"Relacionamento",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_ASS", tags:{main:["associados","nps"], hidden:["crm","csat"]}}
+    {id:"bola",title:"Bola na Rede",desc:"Campanha bola na rede",embedUrl:"https://app.powerbi.com/view?r=REPLACE_BOLA"},
+    {id:"rio", title:"Viva o Rio",  desc:"Campanha Viva o Rio",   embedUrl:"https://app.powerbi.com/view?r=REPLACE_RIO"},
+    {id:"fei", title:"Feirão",       desc:"Ofertas especiais",    embedUrl:"https://app.powerbi.com/view?r=REPLACE_FEI"},
+    {id:"ass", title:"Associados+",  desc:"Relacionamento",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_ASS"}
   ],
   "Placares":[
-    {id:"ag", title:"Placar Agência",   desc:"Por agências",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_AG", tags:{main:["placar","agência"], hidden:["meta","ranking"]}},
-    {id:"ge", title:"Placar Gestor",    desc:"Por gestor",         embedUrl:"https://app.powerbi.com/view?r=REPLACE_GE", tags:{main:["placar","gestor"],  hidden:["time","produtividade"]}},
-    {id:"an", title:"Placar Analítico", desc:"Visão analítica",    embedUrl:"https://app.powerbi.com/view?r=REPLACE_AN", tags:{main:["placar","analítico"], hidden:["drill","comparativos"]}}
+    {id:"ag", title:"Placar Agência",   desc:"Por agências",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_AG"},
+    {id:"ge", title:"Placar Gestor",    desc:"Por gestor",         embedUrl:"https://app.powerbi.com/view?r=REPLACE_GE"},
+    {id:"an", title:"Placar Analítico", desc:"Visão analítica",    embedUrl:"https://app.powerbi.com/view?r=REPLACE_AN"}
   ],
   "Ciclo de Crédito":[
-    {id:"rec",title:"Recuperação", desc:"Operações em atraso", embedUrl:"https://app.powerbi.com/view?r=REPLACE_REC", tags:{main:["ciclo","atraso"], hidden:["bucket","dias"]}},
-    {id:"cob",title:"Cobrança",    desc:"Oportunidades",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_COB", tags:{main:["ciclo","cobrança"], hidden:["pipeline","negociação"]}},
-    {id:"ren",title:"Renegociação",desc:"Acordos e propostas", embedUrl:"https://app.powerbi.com/view?r=REPLACE_REN", tags:{main:["ciclo","renegociação"], hidden:["inad","parcelas"]}},
-    {id:"lib",title:"Liberações",  desc:"Controle de liberações", embedUrl:"https://app.powerbi.com/view?r=REPLACE_LIB", tags:{main:["ciclo","liberações"], hidden:["fluxo","alçada"]}}
+    {id:"rec",title:"Recuperação", desc:"Operações em atraso", embedUrl:"https://app.powerbi.com/view?r=REPLACE_REC"},
+    {id:"cob",title:"Cobrança",    desc:"Oportunidades",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_COB"},
+    {id:"ren",title:"Renegociação",desc:"Acordos e propostas", embedUrl:"https://app.powerbi.com/view?r=REPLACE_REN"},
+    {id:"lib",title:"Liberações",  desc:"Controle de liberações", embedUrl:"https://app.powerbi.com/view?r=REPLACE_LIB"}
   ],
   "Crédito Comercial":[
-    {id:"ofe",title:"Ofertas",     desc:"Ofertas de crédito",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_OFE", tags:{main:["comercial","ofertas"], hidden:["taxa","campanha"]}},
-    {id:"lic",title:"Liberações",  desc:"Liberações comerciais",    embedUrl:"https://app.powerbi.com/view?r=REPLACE_LC",  tags:{main:["comercial","liberações"], hidden:["sla","squad"]}},
-    {id:"apr",title:"Aprovações",  desc:"Fluxo e SLA",              embedUrl:"https://app.powerbi.com/view?r=REPLACE_APR", tags:{main:["comercial","aprovação"], hidden:["workflow","tempo"]}},
-    {id:"car",title:"Carteira",    desc:"Acompanhamento de carteira",embedUrl:"https://app.powerbi.com/view?r=REPLACE_CAR", tags:{main:["comercial","carteira"], hidden:["crm","pós-venda"]}}
+    {id:"ofe",title:"Ofertas",     desc:"Ofertas de crédito",       embedUrl:"https://app.powerbi.com/view?r=REPLACE_OFE"},
+    {id:"lic",title:"Liberações",  desc:"Liberações comerciais",    embedUrl:"https://app.powerbi.com/view?r=REPLACE_LC"},
+    {id:"apr",title:"Aprovações",  desc:"Fluxo e SLA",              embedUrl:"https://app.powerbi.com/view?r=REPLACE_APR"},
+    {id:"car",title:"Carteira",    desc:"Acompanhamento de carteira",embedUrl:"https://app.powerbi.com/view?r=REPLACE_CAR"}
   ]
 };
 
-/* BUILD NAV CENTRAL */
+/* Build accordion com ajustes pedidos */
 const acc = document.getElementById("accordion");
 function buildAccordion(filter=""){
   acc.innerHTML="";
   const q = filter.toLowerCase().trim();
+
   Object.entries(DATA).forEach(([sec,items])=>{
     const list = items.filter(it=>{
-      const all = [...it.tags.main, ...it.tags.hidden].join(" ").toLowerCase();
-      const txt = (it.title+" "+it.desc).toLowerCase();
-      return !q || all.includes(q) || txt.includes(q);
+      const txt = (it.title+" "+(it.desc||"")).toLowerCase();
+      return !q || txt.includes(q);
     });
     if(!list.length) return;
 
     const details = document.createElement("details");
     details.className="section"; details.open = true;
-    details.innerHTML = `<summary>${sec}<span class="chev">▾</span></summary>`;
+
+    // Summary + “depth” para Placares
+    const sum = document.createElement("summary");
+    sum.innerHTML = `<span>${sec}</span><span class="chev">▾</span>`;
+    details.appendChild(sum);
+
     const body = document.createElement("div"); body.className="section-body";
 
-    list.forEach(it=>{
-      const d = document.createElement("div"); d.className="card";
-      d.innerHTML = `
-        <h4>${it.title}</h4>
-        <p>${it.desc||""}</p>
-        <div class="tags collapsed" id="tags-${it.id}">
-          ${it.tags.main.map(t=>`<span class="tag main" onclick="quickFilter('${t}')">#${t}</span>`).join("")}
-          ${it.tags.hidden.map(t=>`<span class="tag" onclick="quickFilter('${t}')">#${t}</span>`).join("")}
-        </div>
-        <span class="toggle" onclick="toggleTags('${it.id}', this)">Mostrar tags</span>
-        <button class="btn" onclick="openOverlay('${sec}','${it.id}')">Abrir</button>
-        <div class="counter">
-          <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span id="c-${it.id}">Acessos: ${getCount(it.id)}</span>
-        </div>
+    // Hint de “nova visualização” antes de clicar, somente em Placares
+    if (sec === "Placares") {
+      const hint = document.createElement("div"); hint.className="section-hint";
+      hint.innerHTML = `
+        <span class="hint">Nova visualização</span>
+        <span class="hint">Novas métricas</span>
+        <span class="hint">Comparativos atualizados</span>
       `;
-      body.appendChild(d);
-    });
+      body.appendChild(hint);
+    }
+
+    // Campanhas em GRID lado a lado + borda animada
+    if (sec === "Campanhas") {
+      const grid = document.createElement("div"); grid.className="grid cols-2";
+      list.forEach(it=>{
+        const d = document.createElement("div"); d.className="card glow";
+        d.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h4>${it.title}</h4>
+            <span class="badge-new">Novo</span>
+          </div>
+          <p>${it.desc||""}</p>
+          <div class="thumb">
+            <span>Prévia do BI</span>
+            <button class="cta" onclick="openOverlay('${sec}','${it.id}')">Abrir</button>
+          </div>
+          <div class="counter">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span id="c-${it.id}">Acessos: ${getCount(it.id)}</span>
+          </div>
+        `;
+        grid.appendChild(d);
+      });
+      body.appendChild(grid);
+    } else {
+      // Demais seções: lista padrão, botão Abrir abaixo do título
+      list.forEach(it=>{
+        const d = document.createElement("div"); d.className="card";
+        d.innerHTML = `
+          <h4>${it.title}</h4>
+          <p>${it.desc||""}</p>
+          <div class="thumb">
+            <span>Prévia</span>
+            <button class="cta" onclick="openOverlay('${sec}','${it.id}')">Abrir</button>
+          </div>
+          <div class="counter">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span id="c-${it.id}">Acessos: ${getCount(it.id)}</span>
+          </div>
+        `;
+        body.appendChild(d);
+      });
+    }
+
     details.appendChild(body);
     acc.appendChild(details);
   });
 }
 
-/* TAGS show/hide */
-function toggleTags(id, el){
-  const box = document.getElementById(`tags-${id}`);
-  const collapsed = box.classList.contains("collapsed");
-  if(collapsed){ box.classList.remove("collapsed"); el.textContent="Ocultar tags"; }
-  else{ box.classList.add("collapsed"); el.textContent="Mostrar tags"; }
-}
-
-/* SEARCH */
+/* Pesquisa por título */
 function filterAll(){ buildAccordion(document.getElementById("q").value); }
-function quickFilter(tag){ document.getElementById("q").value = tag; filterAll(); }
 
-/* OVERLAY FLOW (surge na frente da navegação, com Voltar) */
+/* Overlay */
 function getCount(id){ return Number(localStorage.getItem("access:"+id)||0); }
 function openOverlay(section, id){
   const item = (DATA[section]||[]).find(i=>i.id===id); if(!item) return;
@@ -208,14 +267,11 @@ function openOverlay(section, id){
   document.getElementById("ovCounter").lastElementChild.textContent = "Acessos: "+n;
   const cardC = document.getElementById("c-"+id); if(cardC) cardC.textContent = "Acessos: "+n;
 
-  document.getElementById("viewerTags").innerHTML =
-    [...item.tags.main, ...item.tags.hidden].map(t=>`<span class="tag" onclick="quickFilter('${t}'); closeOverlay()">#${t}</span>`).join("");
-
   document.getElementById("overlay").classList.add("show");
 }
 function closeOverlay(){ document.getElementById("overlay").classList.remove("show"); }
 
-/* INIT */
+/* Init */
 buildAccordion();
 </script>
 </body>
