@@ -31,7 +31,7 @@ main.main{flex:1;padding:24px;position:relative}
 .search input{width:320px;max-width:42vw;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:10px;font-size:14px}
 .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8}
 
-/* Voltar verde (sem animação, sem opacidade/fosco) */
+/* Voltar verde (sem animação) */
 .back-cta{display:none;align-items:center;gap:8px;border:1px solid #059669;background:#10b981;color:#fff;border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:700;box-shadow:0 6px 14px rgba(16,185,129,.22)}
 .back-cta:hover{filter:brightness(0.98)}
 
@@ -45,8 +45,7 @@ main.main{flex:1;padding:24px;position:relative}
 .badge-update{font-size:11px;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;border-radius:999px;padding:4px 8px}
 .chev{transition:transform .18s}
 .section.open .chev{transform:rotate(180deg)}
-
-/* borda imersiva para QUALQUER seção aberta marcada como .immersive */
+/* borda imersiva para qualquer seção aberta */
 .section.immersive.open{
   background:linear-gradient(#fff,#fff) padding-box,
              linear-gradient(90deg,#22c55e,#14b8a6,#0ea5e9,#22c55e) border-box;
@@ -54,30 +53,31 @@ main.main{flex:1;padding:24px;position:relative}
   animation:flow 6s linear infinite;
 }
 @keyframes flow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
 .section-body{height:0;overflow:hidden}
 .section.open .section-body{height:auto}
 .collapsing{transition:height .35s ease}
 .inner{padding:14px 16px 18px}
 
 /* Grids */
-.grid{display:grid;gap:14px}
-.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:1100px){.grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:760px){.grid.cols-3{grid-template-columns:1fr}}
+.grid{display:grid;gap:12px}
+.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1280px){.grid.cols-4{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:980px){.grid.cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:680px){.grid.cols-4{grid-template-columns:1fr}}
 
-/* Cards */
-.card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:8px;box-shadow:0 6px 18px rgba(2,6,23,.06)}
+/* Cards compactos sem fundo vazio */
+.card{position:relative;border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px;display:flex;flex-direction:column;gap:6px;box-shadow:0 6px 18px rgba(2,6,23,.06);min-height:120px}
 .card h4{margin:0;font-size:14px}
 .card p{margin:0;font-size:12px;color:#6b7280}
-.counter{display:flex;gap:6px;align-items:center;font-size:12px;color:#6b7280}
-.eye{width:16px;height:16px}
 .badge-new{font-size:10px;color:#047857;background:#d1fae5;border:1px solid #a7f3d0;border-radius:999px;padding:2px 6px}
+.badge-update-in{font-size:10px;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;border-radius:999px;padding:2px 6px}
 
-/* Thumb + CTA central */
-.thumb{position:relative;height:110px;border:1px dashed #cbd5e1;border-radius:10px;background:#f8fafc;display:grid;place-items:center;color:#64748b;overflow:hidden;box-shadow:inset 0 1px 6px rgba(2,6,23,.04)}
-.cta{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;border:1px solid var(--border);background:#ecfdf5;color:#065f46;font-weight:600;cursor:pointer;box-shadow:0 6px 16px rgba(16,185,129,.18)}
-.cta:hover{filter:brightness(0.98)}
+/* Ações no canto inferior direito */
+.actions{margin-top:auto;display:flex;justify-content:flex-end}
+.open-btn{border:1px solid var(--border);background:#ecfdf5;color:#065f46;border-radius:10px;padding:8px 12px;font-weight:600;cursor:pointer}
+.open-btn:hover{filter:brightness(0.98)}
+.counter{position:absolute;left:12px;bottom:12px;display:flex;gap:6px;align-items:center;font-size:12px;color:#6b7280}
+.eye{width:16px;height:16px}
 
 /* Overlay */
 .overlay{position:absolute;left:24px;right:24px;bottom:24px;top:calc(24px + var(--ph));background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 20px 40px rgba(2,6,23,.18);display:none;flex-direction:column;overflow:auto;z-index:4}
@@ -85,13 +85,17 @@ main.main{flex:1;padding:24px;position:relative}
 .viewer{padding:16px;display:flex;flex-direction:column;gap:16px}
 .frame{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;min-height:60vh;display:grid;place-items:center;color:#64748b}
 .frame iframe{width:100%;height:70vh;border:0;border-radius:12px}
-
 /* Related */
 .related{border-top:1px solid var(--border);padding-top:12px}
 .related h4{margin:0 0 10px 0;font-size:14px}
-.related .relgrid{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:1100px){.related .relgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:760px){.related .relgrid{grid-template-columns:1fr}}
+.related .relgrid{display:grid;gap:12px;grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1280px){.related .relgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:980px){.related .relgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:680px){.related .relgrid{grid-template-columns:1fr}}
+.rel-card{position:relative;border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px;display:flex;flex-direction:column;gap:6px;min-height:110px;box-shadow:0 4px 12px rgba(2,6,23,.05)}
+.rel-actions{margin-top:auto;display:flex;justify-content:flex-end}
+.rel-open{border:1px solid var(--border);background:#ecfdf5;color:#065f46;border-radius:10px;padding:7px 10px;font-weight:600;cursor:pointer}
+.rel-open:hover{filter:brightness(0.98)}
 </style>
 </head>
 <body>
@@ -112,7 +116,6 @@ main.main{flex:1;padding:24px;position:relative}
       <!-- header fixo -->
       <div class="panel-hd">
         <h2 id="pageTitle">Dashboards</h2>
-        <!-- direita: pesquisa (padrão) ou CTA voltar (em dash aberto) -->
         <div id="rightSearch" class="search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <input id="q" placeholder="Pesquisar por título…" oninput="filterAll()"/>
@@ -169,7 +172,6 @@ function buildNav(filter=""){
     if(!list.length) return;
 
     const s = document.createElement("div");
-    // agora ambas seções são imersivas (borda animada quando abertas)
     s.className = "section immersive";
     s.dataset.section = sec;
 
@@ -182,22 +184,20 @@ function buildNav(filter=""){
 
     const body = document.createElement("div"); body.className="section-body collapsing";
     const inner = document.createElement("div"); inner.className="inner";
-    const grid = document.createElement("div"); grid.className = "grid cols-3";
+    const grid = document.createElement("div"); grid.className = "grid cols-4";
 
     list.forEach(it=>{
       const card = document.createElement("div");
-      // cards de Campanhas continuam com “Novo”
-      card.className = "card" + (sec==="Campanhas" ? " glow" : "");
+      card.className = "card";
       card.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
           <h4>${it.title}</h4>
           ${sec==="Campanhas"?`<span class="badge-new">Novo</span>`:""}
-          ${sec!=="Campanhas"&&it.flagUpdate?`<span class="badge-update">Nova atualização</span>`:""}
+          ${sec!=="Campanhas"&&it.flagUpdate?`<span class="badge-update-in">Nova atualização</span>`:""}
         </div>
         ${sec==="Campanhas"?`<p>Data fim: ${it.end}</p>`:""}
-        <div class="thumb">
-          <span>Prévia</span>
-          <button class="cta" onclick="openDash('${sec}','${it.id}')">Abrir</button>
+        <div class="actions">
+          <button class="open-btn" onclick="openDash('${sec}','${it.id}')">Abrir</button>
         </div>
         <div class="counter">
           <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -240,12 +240,16 @@ function buildRelated(newItem){
   const sug1 = DATA["Campanhas"].find(x=>x.id==="rio");
   const sug2 = DATA["Placares"].find(x=>x.id==="ag");
   [sug1,sug2].forEach(x=>{ if(x && !pool.some(p=>p.id===x.id) && x.id!==newItem.id) pool.push(x); });
-  pool.slice(0,3).forEach(r=>{
+
+  pool.slice(0,4).forEach(r=>{
     const secRel = Object.keys(DATA).find(k=>DATA[k].some(i=>i.id===r.id));
-    const c = document.createElement("div"); c.className="card";
-    c.innerHTML = `<h4>${r.title}</h4>${r.end?`<p>Data fim: ${r.end}</p>`:""}
-      <div class="thumb"><span>Prévia</span>
-      <button class="cta" onclick="openDash('${secRel}','${r.id}')">Abrir</button></div>`;
+    const c = document.createElement("div"); c.className="rel-card";
+    c.innerHTML = `
+      <h4>${r.title}</h4>
+      ${r.end?`<p>Data fim: ${r.end}</p>`:""}
+      <div class="rel-actions">
+        <button class="rel-open" onclick="openDash('${secRel}','${r.id}')">Abrir</button>
+      </div>`;
     rel.appendChild(c);
   });
 }
@@ -255,22 +259,17 @@ function openDash(section, id){
   const item = (DATA[section]||[]).find(i=>i.id===id); if(!item) return;
 
   pageTitle.textContent = item.title;
-
-  // tira a pesquisa e mostra o botão verde sem animação
   rightSearch.style.display = "none";
   backCta.style.display = "inline-flex";
   backCta.onclick = backToMenu;
 
-  // iframe
   const fw = document.getElementById("frameWrap"); fw.innerHTML = "";
   const ifr = document.createElement("iframe"); ifr.src = item.embedUrl || "about:blank"; ifr.loading="lazy";
   fw.appendChild(ifr);
 
-  // relacionados / swap
   buildRelated(item);
   currentDash = item;
 
-  // contador
   const key = "access:"+id; const n = getCount(id)+1; localStorage.setItem(key, n);
   const cardC = document.getElementById("c-"+id); if(cardC) cardC.textContent = "Acessos: "+n;
 
